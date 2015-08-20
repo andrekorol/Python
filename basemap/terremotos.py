@@ -1,3 +1,6 @@
+#Code to read and plot earthquakes from the last 7 days
+#Written by: Andre Rossi Korol
+
 # --- Process Data ---
 data_file = open('datasets/earthquake_data.csv')
  
