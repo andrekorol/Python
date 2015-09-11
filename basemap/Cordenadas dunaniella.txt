@@ -1,0 +1,41 @@
+Cordenadas dunaniella:
+
+Balearic Islands-Spain:
+lon=2.8577105
+lat=39.5341789
+
+Black Sea:
+lon=34.299316
+lat=43.413029
+
+Germany:
+lon=10.451526
+lat=51.165691
+
+Romania:
+lon=24.96676
+lat=45.943161
+
+Spain:
+lon=-3.74922
+lat=40.463667
+
+Canary Islands:
+lon=-16.6291304
+lat=28.2915637
+
+Egypt:
+lon=30.802498
+lat=26.820553
+
+Iran:
+lon=53.688046
+lat=32.427908
+
+New Zealand:
+lon=174.885971
+lat=-40.900557
+
+Montpellier:
+lon=3.876716
+lat=43.610769
