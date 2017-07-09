@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{82339a8a-e946-47b9-8523-a08c128ad7b9}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>answ-prob2-3.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId />
+    <InterpreterVersion />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+    <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="answ-prob2-3.py" />
+    <Compile Include="bissection-search.py" />
+    <Compile Include="dec-bin-test.py" />
+    <Compile Include="dec2bin.py" />
+    <Compile Include="ex4.py" />
+    <Compile Include="ex5.py" />
+    <Compile Include="ex7.py" />
+    <Compile Include="guess-my-number.py" />
+    <Compile Include="hello.py" />
+    <Compile Include="mid-exam-1.py" />
+    <Compile Include="mid-exam-2.py" />
+    <Compile Include="mid-exam-3.py" />
+    <Compile Include="mid-exam-4.py" />
+    <Compile Include="mid-exam-5.py" />
+    <Compile Include="mid-exam-6.py" />
+    <Compile Include="mid-exam-7.py" />
+    <Compile Include="mid-exam-8.py" />
+    <Compile Include="mid-exam-9.py" />
+    <Compile Include="mult_iter.py" />
+    <Compile Include="newton-raphson.py" />
+    <Compile Include="odd.py" />
+    <Compile Include="prob1-1.py" />
+    <Compile Include="prob1-2.py" />
+    <Compile Include="prob1-3.py" />
+    <Compile Include="prob2-1.py" />
+    <Compile Include="prob2-2.py" />
+    <Compile Include="prob2-3.py" />
+    <Compile Include="pt-guess-my-number.py" />
+    <Compile Include="test1.py" />
+    <Compile Include="var-scope-test.py" />
+    <Compile Include="varA-varB.py" />
+    <Compile Include="week2.3-ex2.py" />
+    <Compile Include="while-ex1.py" />
+  </ItemGroup>
+  <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />
+</Project>
