@@ -1,2 +1,2 @@
 # python
-Minha pasta de arquivos e programas do python
+All my python courses and some personal projects
