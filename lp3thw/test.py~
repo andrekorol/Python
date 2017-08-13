@@ -1,0 +1,4 @@
+import sys
+script, filename = argv
+print(argv)
+exit(0)
