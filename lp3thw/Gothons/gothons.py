@@ -40,6 +40,8 @@ class Death(Scene):
 
     def enter(self):
         print(Death.quips[randint(0, len(self.quips) - 1)])
+        print("Press any key to exit the game...")
+        key = input()
         exit(1)
 
 
