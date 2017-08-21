@@ -1,6 +1,9 @@
 from sys import exit
 from random import randint
 from textwrap import dedent
+from expr_gen import expr_gen
+from threading import Timer
+import time
 
 
 class Scene(object):
@@ -16,18 +19,30 @@ class Engine(object):
     def __init__(self, scene_map):
         self.scene_map = scene_map
 
+    def difficulty(self):
+        self.difficulty = 0
+        while self.difficulty not in [1, 2, 3, 4]:
+            print(dedent("""
+            Select a difficulty level:
+            1 - Easy
+            2 - Medium
+            3 - Hard
+            4 - Impossible
+            """))
+            self.difficulty = int(input("> "))
+
     def play(self):
         current_scene = self.scene_map.opening_scene()
         last_scene = self.scene_map.next_scene('finished')
 
         while current_scene != last_scene:
-            next_scene_name = current_scene.enter()
+            next_scene_name = current_scene.enter(self.difficulty)
             current_scene = self.scene_map.next_scene(next_scene_name)
 
         # be sure to print out the last scene
-        current_scene.enter()
+        current_scene.enter(self.difficulty)
 
-
+            
 class Death(Scene):
 
     quips = [
@@ -38,16 +53,16 @@ class Death(Scene):
         "You're worse than your Dad's jokes."
     ]
 
-    def enter(self):
+    def enter(self, difficulty):
         print(Death.quips[randint(0, len(self.quips) - 1)])
         print("Press any key to exit the game...")
-        key = input()
+        input()
         exit(1)
 
 
 class CentralCorridor(Scene):
 
-    def enter(self):
+    def enter(self, difficulty):
         print(dedent("""
         The Gothons of Planet Percal #25 have invaded your ship and
         destroyed your entire crew. You are the last surviving
@@ -68,7 +83,6 @@ class CentralCorridor(Scene):
         tell a joke
         dodge
         """))
-        
         action = input("> ")
         
         if action == "shoot!" or action == "shoot":
@@ -114,7 +128,7 @@ class CentralCorridor(Scene):
 
 class LaserWeaponArmory(Scene):
 
-    def enter(self):
+    def enter(self, difficulty):
         print(dedent("""
         You do a dive roll into the Weapon Armory, crouch and scan
         the room for more Gothons that might be hiding. It's dead
@@ -125,14 +139,21 @@ class LaserWeaponArmory(Scene):
         the lock closes forever and you can't get the bomb. The
         code is 3 digits.
         """))
-
+        expr = expr_gen()
+        cheat_code = eval(expr)
+        print(dedent("""
+        To receive a tip, enter the result of {expr}
+        """))
+        
         code = f"{randint(1, 9)}{randint(1, 9)}{randint(1, 9)}"
         guess = input("[keypad]> ")
         guesses = 0
-        if guess == "4444":
+        if guess == cheat_code:
+            cheat_expr = expr_gen(code)
             print(dedent(f"""
             CHEAT ACTIVATED!
-            The correct code to unlock the box is {code}
+            The correct code to unlock the box is the result of
+            {cheat_expr}
             """))
         while guess != code and guesses < 9:
             print("BZZZZEDDD!")
@@ -165,7 +186,7 @@ class LaserWeaponArmory(Scene):
 
 class TheBridge(Scene):
 
-    def enter(self):
+    def enter(self, difficulty):
         print(dedent("""
         You burst onto the Bridge with the neutron destruct bomb
         under your arm and surprise 5 Gothons who are trying to
@@ -214,7 +235,7 @@ class TheBridge(Scene):
 
 class EscapePod(Scene):
 
-    def enter(self):
+    def enter(self, difficulty):
         print(dedent("""
         You rush through the ship desperately trying to make it to
         the escape pod before the whole ship explodes. It seems
@@ -260,7 +281,7 @@ class EscapePod(Scene):
 
 class Finished(Scene):
 
-    def enter(self):
+    def enter(self, difficulty):
         print("You won! Good job.")
         return 'finished'
 
@@ -289,4 +310,5 @@ class Map(object):
 
 a_map = Map('central_corridor')
 a_game = Engine(a_map)
+a_game.difficulty()
 a_game.play()
