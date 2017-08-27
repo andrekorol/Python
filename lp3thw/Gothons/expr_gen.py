@@ -144,10 +144,18 @@ def expr_gen(difficulty, code=None):
         expr = rendered_exprs[randint(0, len(rendered_exprs) - 1)]
 
     else:
-        # Use thread and Queue and match = None here too!!
         expressions = []
         while not expressions:
-            match = solve(int(code), generate(expr_numbers))
+            match = None
+            while not match:
+                num, expr_numbers = num_gen(difficulty)
+                que = Queue()
+                t = Thread(
+                    target=lambda q, arg1, arg2: q.put(solve(arg1, arg2)),
+                    args=(que, int(code), generate(expr_numbers)))
+                t.start()
+                t.join(5)
+                match = que.get()
             for expr in match:
                 expressions.append(expr)
         rendered_exprs = []

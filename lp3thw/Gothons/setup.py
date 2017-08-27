@@ -2,7 +2,7 @@
 import sys
 from cx_Freeze import setup, Executable
 
-build_exe_options = {"packages": ["os", "random", "textwrap"],
+build_exe_options = {"packages": ["os", "random", "textwrap", "expr_gen"],
                      "excludes": ["tkinter"]}
 base = None
 if sys.platform == "win32":

@@ -2,8 +2,10 @@ from sys import exit
 from random import randint
 from textwrap import dedent
 from expr_gen import expr_gen
-from threading import Timer
-import time
+from multiprocessing import Queue
+from threading import Thread
+# from threading import Timer
+# import time
 
 
 class Scene(object):
@@ -139,33 +141,41 @@ class LaserWeaponArmory(Scene):
         the lock closes forever and you can't get the bomb. The
         code is 3 digits.
         """))
-        expr = expr_gen()
+        expr = expr_gen(difficulty)
         cheat_code = eval(expr)
-        print(dedent("""
+        print(dedent(f"""
         To receive a tip, enter the result of {expr}
         """))
         
         code = f"{randint(1, 9)}{randint(1, 9)}{randint(1, 9)}"
         guess = input("[keypad]> ")
         guesses = 0
-        if guess == cheat_code:
-            cheat_expr = expr_gen(code)
-            print(dedent(f"""
-            CHEAT ACTIVATED!
-            The correct code to unlock the box is the result of
-            {cheat_expr}
-            """))
+        
         while guess != code and guesses < 9:
-            print("BZZZZEDDD!")
-            guesses += 1
-            guess = input("[keypad]> ")
+            if int(guess) == cheat_code:
+                cheat_expr = '0 + 0'
+                while eval(cheat_expr) != int(code):
+                    que = Queue()
+                    t = Thread(
+                        target=lambda q, arg1: q.put(arg1),
+                        args=(que, expr_gen(difficulty, code))
+                    )
+                    t.start()
+                    t.join(5)
+                    cheat_expr = que.get()
 
-            if guess == "4444":
                 print(dedent(f"""
                 CHEAT ACTIVATED!
-                The correct code to unlock the box is {code}
-            """))
-                
+                The correct code to unlock the box is the result of
+                {cheat_expr}
+                """))
+                guesses += 1
+                guess = input("[keypad]> ")
+            else:
+                print("BZZZZEDDD!")
+                guesses += 1
+                guess = input("[keypad]> ")
+
         if guess == code:
             print(dedent("""
             The container clicks open and the seal breaks, letting
@@ -247,12 +257,38 @@ class EscapePod(Scene):
         """))
 
         good_pod = randint(1, 5)
+        expr = ''
+        while not expr:
+            que = Queue()
+            t = Thread(
+                target=lambda q, arg1: q.put(arg1),
+                args=(que, expr_gen(difficulty))
+            )
+            t.start()
+            t.join(5)
+            expr = que.get()
+
+        cheat_code = eval(expr)
+        print(dedent(f"""
+        To receive a tip, enter the result of {expr}
+        """))
         guess = input("[pod #]> ")
         while True:
-            if guess == "4444":
+            if int(guess) == cheat_code:
+                pod_cheat = '0 + 0'
+                while eval(pod_cheat) != good_pod:
+                    que = Queue()
+                    t = Thread(
+                        target=lambda q, arg1: q.put(arg1),
+                        args=(que, expr_gen(difficulty, str(good_pod)))
+                    )
+                    t.start()
+                    t.join(5)
+                    pod_cheat = que.get()
+
                 print(dedent(f"""
                 CHEAT ACTIVATED!
-                The good pod is pod #{good_pod}
+                The good pod is the result of {pod_cheat}
                 """))
                 guess = input("[pod #]> ")
             else:
