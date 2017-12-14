@@ -1,0 +1,25 @@
+#include "timed_input.hpp"
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include <mutex>
+#include <condition_variable>
+
+TimedInput::TimedInput(std::condition_variable condv, std::string prompt_str, std::string input_str, std::chrono::seconds time) : cv{condv}, prompt{prompt_str}, input_string{input_str}, time_limit{time} {};
+
+void TimedInput::read_string() {
+    std::cin >> input_str;
+    condv.notify_one();
+}
+
+std::string return_input() {
+    std::cout << prompt_str << "\n";
+    std::thread th(read_string);
+
+    std::mutex mtx;
+    std::unique_lock<std::mutex> lck(mtx);
+
+    while ((cv.wait_for(lck, time_limit) != std::cv_status::timeout) and (input_string.empty())) {}
+
+    return input_string;
+}
