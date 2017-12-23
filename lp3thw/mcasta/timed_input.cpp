@@ -21,7 +21,7 @@ std::string TimedInput::return_input() {
     std::unique_lock<std::mutex> lck(mtx);
     time_limit = (std::chrono::seconds) li_time_limit;
     
-    while ((cv.wait_for(lck, time_limit) != std::cv_status::timeout) and (input_string.empty())) { }
+    while ((cv.wait_for(lck, time_limit) != std::cv_status::timeout) && (input_string.empty())) { }
     
     th.detach();
     
@@ -32,5 +32,5 @@ std::string TimedInput::return_input() {
 extern "C" {
     TimedInput* TimedInput_new(std::string prompt, long int time_limit) { return new TimedInput(prompt, time_limit); }
     void TimedInput_read_string(TimedInput* timed_input) { timed_input->read_string(); }
-    std::string TimedInput_return_input(TimedInput* timed_input) { timed_input->return_input(); }
+    std::string TimedInput_return_input(TimedInput* timed_input) { return timed_input->return_input(); }
 }
