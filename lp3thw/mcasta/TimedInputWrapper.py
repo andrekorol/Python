@@ -1,19 +1,20 @@
 import ctypes
 
-lib = ctypes.cdll.LoadLibrary('./libTimedInput.so')
+lib = ctypes.cdll.LoadLibrary("C:/Users/anrob/source/repos/TimedInput/x64/Debug/TimedInput.dll")
 
 
 class TimedInput(object):
     def __init__(self, prompt, time_limit):
-        self.prompt = prompt
-        self.time_limit = time_limit
-        self.obj = lib.TimedInput_new()
+        self.TimedInputLib = ctypes.WinDLL("C:/Users/anrob/source/repos/TimedInput/x64/Debug/TimedInput.dll")
+        #self.prompt = prompt
+        #self.time_limit = time_limit
+        self.obj = self.TimedInputLib.TimedInput_new(prompt, time_limit)
 
     def read_string(self):
-        lib.TimedInput_read_string(self.obj)
+        return self.TimedInputLib.TimedInput_read_string(self.obj)
 
     def return_input(self):
-        lib.TimedInput_return_input(self.obj)
+        return self.TimedInputLib.TimedInput_return_input(self.obj)
 
 
 prompt = ctypes.c_wchar_p("What's your name?")

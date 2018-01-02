@@ -13,7 +13,7 @@ void TimedInput::read_string() {
     cv.notify_one();
 }
 
-std::string TimedInput::return_input() {
+const char * TimedInput::return_input() {
     std::cout << "Time limit for input = " << li_time_limit << " seconds!\n" << prompt << "\n";
     std::thread th(&TimedInput::read_string, this);
     
@@ -24,13 +24,13 @@ std::string TimedInput::return_input() {
     while ((cv.wait_for(lck, time_limit) != std::cv_status::timeout) && (input_string.empty())) { }
     
     th.detach();
-    
-    return input_string;
+	const char *c_str_input = input_string.c_str();
+    return c_str_input;
 }
 
 
 extern "C" {
     TimedInput* TimedInput_new(std::string prompt, long int time_limit) { return new TimedInput(prompt, time_limit); }
     void TimedInput_read_string(TimedInput* timed_input) { timed_input->read_string(); }
-    std::string TimedInput_return_input(TimedInput* timed_input) { return timed_input->return_input(); }
+    const char * TimedInput_return_input(TimedInput* timed_input) { return timed_input->return_input(); }
 }

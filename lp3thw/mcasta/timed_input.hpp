@@ -1,5 +1,11 @@
-#ifndef TIMED_INPUT_H
-#define TIMED_INPUT_H
+#pragma once
+
+#ifdef TIMEDINPUT_EXPORTS  
+#define TIMEDINPUT_API __declspec(dllexport)   
+#else  
+#define TIMEDINPUT_API __declspec(dllimport)   
+#endif  
+
 #include <condition_variable>
 #include <string>
 #include <chrono>
@@ -12,6 +18,5 @@ class TimedInput {
 public:
     TimedInput(std::string, long int);
     void read_string();
-    std::string return_input();
+	const char * return_input();
 };
-#endif
