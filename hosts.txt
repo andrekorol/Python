@@ -6,3 +6,14 @@ Manufacturer:	Intel
 Description:	Intel(R) Ethernet Connection (2) I219-V
 Driver version:	12.15.25.6
 Physical address (MAC):	E0-D5-5E-0D-01-A1
+hostname: pandora
+
+atlantis:
+#
+# /etc/hosts: static lookup table for host names
+#
+
+#<ip-address>	<hostname.domain.org>	<hostname>
+127.0.0.1	localhost.localdomain	localhost
+::1		localhost.localdomain	localhost
+127.0.1.1	atlantis.localdomain	atlantis
