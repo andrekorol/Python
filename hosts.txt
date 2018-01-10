@@ -1,0 +1,8 @@
+pandora:
+IPv4 address:	192.168.0.14
+IPv4 DNS servers:	201.75.168.34
+201.75.168.88
+Manufacturer:	Intel
+Description:	Intel(R) Ethernet Connection (2) I219-V
+Driver version:	12.15.25.6
+Physical address (MAC):	E0-D5-5E-0D-01-A1
