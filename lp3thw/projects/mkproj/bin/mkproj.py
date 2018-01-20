@@ -9,4 +9,6 @@ except ValueError:
           "Usage: mkproj.py projectname")
     exit(0)
 
-print(sys.platform)
+print(os.getcwd())
+# if sys.platform == "win32":
+#     print()
