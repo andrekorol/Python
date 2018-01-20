@@ -1,0 +1,2 @@
+print("Runner is installed!")
+input()

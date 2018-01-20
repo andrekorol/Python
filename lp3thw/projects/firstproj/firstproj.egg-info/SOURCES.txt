@@ -1,0 +1,9 @@
+bin
+setup.py
+bin/runner.py
+firstproj/__init__.py
+firstproj.egg-info/PKG-INFO
+firstproj.egg-info/SOURCES.txt
+firstproj.egg-info/dependency_links.txt
+firstproj.egg-info/requires.txt
+firstproj.egg-info/top_level.txt
