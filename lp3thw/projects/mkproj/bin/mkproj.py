@@ -58,3 +58,10 @@ for dir in project_dirs:
 # so these directories are recognized as modules
 f = open(project_module_path + slash + "__init__.py", 'w').close()
 f = open(tests_path + slash + "__init__.py", 'w').close()
+
+# Create the setup.py file for the new project
+with open(project_path + slash + "setup.py", 'w') as f:
+    f.write("try:\n\tfrom setuptools import setup\n")
+    f.write("except ImportError:\n\tfrom distutils.core import setup\n\n")
+    f.write("config = {\n")
+    f.write(f"\t'description': 'My {projectname} Project',\n")
