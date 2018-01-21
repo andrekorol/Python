@@ -1,7 +1,0 @@
-class Root:
-    def draw(self):
-        # the delegation chain stops here
-        assert not hasattr(super(), 'draw')
-
-class Shape(Root):
-    def

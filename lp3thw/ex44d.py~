@@ -1,9 +1,0 @@
-class Parent(object):
-
-    def override(self):
-        print("PARENT override()")
-
-    def implicit(self):
-        print("PARENT implicit()")
-
-        
