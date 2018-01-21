@@ -16,4 +16,9 @@ if sys.platform == "win32":
 else:
     project_path = top + '/' + projectname
 
-print(project_path)
+try:
+    os.makedirs(project_path)
+except FileExistsError:
+    print(
+        "FileExistsError: Cannot create a file when that file already exists:")
+    print(project_path + " already exists!")
