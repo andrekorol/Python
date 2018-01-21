@@ -62,7 +62,7 @@ f = open(tests_path + slash + "__init__.py", 'w').close()
 
 # Create the setup.py file for the new project
 with open(project_path + slash + "setup.py", 'w') as f:
-    f.write("try:\n\tfrom setuptools import setup\n")
-    f.write("except ImportError:\n\tfrom distutils.core import setup\n\n")
+    f.write("try:\n    from setuptools import setup\n")
+    f.write("except ImportError:\n    from distutils.core import setup\n\n")
     f.write("config = {\n")
-    f.write(f"\t'description': 'My {projectname} Project',\n")
+    f.write(f"    'description': 'My {projectname} Project',\n")

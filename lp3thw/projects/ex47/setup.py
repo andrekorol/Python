@@ -1,7 +1,7 @@
 try:
-	from setuptools import setup
+    from setuptools import setup
 except ImportError:
-	from distutils.core import setup
+    from distutils.core import setup
 
 config = {
-	'description': 'My ex47 Project',
+    'description': 'My ex47 Project',
