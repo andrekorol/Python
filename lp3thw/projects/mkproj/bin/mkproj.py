@@ -33,7 +33,7 @@ else:
 
 # Make the project path directory
 try:
-    os.makedirs(project_path)
+    os.mkdir(project_path)
 except FileExistsError:
     if on_windows:
         print("FileExistsError: [WinError 183] Cannot create a file when that "
@@ -49,4 +49,7 @@ project_module_path = project_path + slash + projectname
 tests_path = project_path + slash + "tests"
 docs_path = project_path + slash + "docs"
 
-os.makedirs(bin_path, project_module_path, tests_path, docs_path)
+project_dirs = [bin_path, project_module_path, tests_path, docs_path]
+
+for dir in project_dirs:
+    os.mkdir(dir)
