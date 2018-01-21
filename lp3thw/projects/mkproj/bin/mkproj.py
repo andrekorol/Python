@@ -10,6 +10,10 @@ except ValueError:
     exit(0)
 
 top = os.getcwd()
-print(top)
-# if sys.platform == "win32":
-#     print(top)
+
+if sys.platform == "win32":
+    project_path = top + '\\' + projectname
+else:
+    project_path = top + '/' + projectname
+
+print(project_path)
