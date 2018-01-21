@@ -41,6 +41,7 @@ except FileExistsError:
         print(project_path)
     else:
         print("FileExistsError: [Errno 17] File exists: '" + projectname + "'")
+    exit(0)
 
 # Make the bin/ project_module/ tests/ and docs/ directories under the project
 # path, according to the OS being run on once again
