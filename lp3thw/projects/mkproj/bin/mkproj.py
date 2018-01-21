@@ -53,4 +53,3 @@ project_dirs = [bin_path, project_module_path, tests_path, docs_path]
 
 for dir in project_dirs:
     os.mkdir(dir)
-# wsfr
