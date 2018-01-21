@@ -2,7 +2,6 @@
 import os
 import sys
 
-
 # First of all we get the name of the new project to be created
 # as an argument
 try:
@@ -43,5 +42,11 @@ except FileExistsError:
     else:
         print("FileExistsError: [Errno 17] File exists: '" + projectname + "'")
 
-# Make the bin/ projectname/ tests/ and docs/ directories under the project
+# Make the bin/ project_module/ tests/ and docs/ directories under the project
 # path, according to the OS being run on once again
+bin_path = project_path + slash + "bin"
+project_module_path = project_path + slash + projectname
+tests_path = project_path + slash + "tests"
+docs_path = project_path + slash + "docs"
+
+os.makedirs(bin_path, project_module_path, tests_path, docs_path)
