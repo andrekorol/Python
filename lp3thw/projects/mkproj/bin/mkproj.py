@@ -1,6 +1,10 @@
 #! python3
-import os, sys
+import os
+import sys
 
+
+# First of all we get the name of the new project to be created
+# as an argument
 try:
     script, projectname = sys.argv
     # print(projectname)
@@ -9,16 +13,35 @@ except ValueError:
           "Usage: mkproj.py projectname")
     exit(0)
 
+# Get the current working directory
 top = os.getcwd()
 
+# Check if it is running under Windows OS or not, creating a boolean variable
+# for it and setting the correct "slash" character according to the OS being
+# run on
 if sys.platform == "win32":
-    project_path = top + '\\' + projectname
+    on_windows = True
+    slash = '\\'
 else:
-    project_path = top + '/' + projectname
+    on_windows = False
+    slash = '/'
 
+# Set the path of the new project according to the OS being run on
+if on_windows:
+    project_path = top + slash + projectname
+else:
+    project_path = top + slash + projectname
+
+# Make the project path directory
 try:
     os.makedirs(project_path)
 except FileExistsError:
-    print(
-        "FileExistsError: Cannot create a file when that file already exists:")
-    print(project_path + " already exists!")
+    if on_windows:
+        print("FileExistsError: [WinError 183] Cannot create a file when that "
+              "file already exists:")
+        print(project_path)
+    else:
+        print("FileExistsError: [Errno 17] File exists: '" + projectname + "'")
+
+# Make the bin/ projectname/ tests/ and docs/ directories under the project
+# path, according to the OS being run on once again
