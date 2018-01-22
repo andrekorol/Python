@@ -1,17 +1,14 @@
 #! python3
 import os
 import sys
+import argparse
 from subprocess import call
 
-# First of all we get the name of the new project to be created
-# as an argument
-try:
-    script, projectname = sys.argv
-    # print(projectname)
-except ValueError:
-    print("Name of new project must be given as argument!\n"
-          "Usage: mkproj.py projectname")
-    exit(0)
+# First of all, we get the arguments given when running the script and
+# then, we setup the Argument Parser
+arguments = ' '.join(sys.argv[1:])
+print(arguments)
+exit(0)
 
 # Get the current working directory
 top = os.getcwd()
@@ -74,9 +71,9 @@ if not os.path.isfile(tests_path + slash + "__init__.py"):
 if not os.path.isfile(tests_path + slash + f"{projectname}_tests.py"):
     with open(tests_path + slash + f"{projectname}_tests.py", 'w') as f:
         f.write("from nose.tools import *\n")
-        f.write(f"import {projectname}\n\n")
-        f.write("def setup():\n    print(\"SETUP!\")\n\n")
-        f.write("def teardown():\n    print(\"TEAR DOWN!\")\n\n")
+        f.write(f"import {projectname}\n\n\n")
+        f.write("def setup():\n    print(\"SETUP!\")\n\n\n")
+        f.write("def teardown():\n    print(\"TEAR DOWN!\")\n\n\n")
         f.write("def test_basic():\n    print(\"I RAN!\", end='')\n")
 
 # Run the tests
@@ -84,13 +81,17 @@ os.chdir(project_path)
 call("nosetests")
 
 # Create the setup.py file for the new project
-# If it already exists, just update the file by including new scripts
+# If it already exists, just update the file by including new install_requires,
+# packages and scripts
 description = "My " + projectname + " Project"
 author = "Andre Rossi Korol"
 url = "URL to get it at."
 download_url = "Where to download it."
 author_email = "anrobits@yahoo.com.br"
 version = "0.1"
+
+# Get all modules from import statements and add them to the
+# install_requires list
 install_requires = []
 for root, dirs, files in os.walk(project_path):
     for file in files:
@@ -117,16 +118,29 @@ for module in install_requires:
         new_install_requires.append(module)
 install_requires = new_install_requires
 
-packages = f"['{projectname}']"
+# Find all project packages and add them to the packages list
+packages = []
+for root, dirs, files in os.walk(project_path):
+    for dir in dirs:
+        dir_path = os.path.join(root, dir)
+        if os.path.isfile(dir_path + slash + "__init__.py") and dir != "tests":
+            packages.append(dir)
+
+# Find all scripts on the project bin/ directory and add them to the
+# scripts list
 scripts = []
+for root, dirs, files in os.walk(bin_path):
+    for file in files:
+        if file[-1] != '~' and file[0:2] != ".#":
+            scripts.append("bin/" + file)
 
 name = projectname
 
-for root, dirs, files in os.walk(bin_path):
-    for file in files:
-        scripts.append(file)
-
+# Before writing to the project's setup.py file, we truncate it by doing
+# the following:
 f = open(project_path + slash + "setup.py", 'w').close()
+
+# Now we write the setup.py file
 with open(project_path + slash + "setup.py", 'w') as f:
     f.write("try:\n    from setuptools import setup\n")
     f.write("except ImportError:\n    from distutils.core import setup\n\n")
@@ -138,3 +152,7 @@ with open(project_path + slash + "setup.py", 'w') as f:
     f.write(f"    'author_email': '{author_email}',\n")
     f.write(f"    'version': '{version}',\n")
     f.write(f"    'install_requires': {install_requires},\n")
+    f.write(f"    'packages': {packages},\n")
+    f.write(f"    'scripts': {scripts},\n")
+    f.write(f"    'name': '{projectname}'\n")
+    f.write("}\n\nsetup(**config)\n")

@@ -10,4 +10,10 @@ config = {
     'download_url': 'Where to download it.',
     'author_email': 'anrobits@yahoo.com.br',
     'version': '0.1',
-    'install_requires': ['nose', 'os', 'subprocess', 'math'],
+    'install_requires': ['nose'],
+    'packages': ['ex47'],
+    'scripts': [],
+    'name': 'ex47'
+}
+
+setup(**config)
