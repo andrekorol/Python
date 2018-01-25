@@ -7,8 +7,108 @@ from subprocess import call
 # First of all, we get the arguments given when running the script and
 # then, we setup the Argument Parser
 arguments = ' '.join(sys.argv[1:])
-print(arguments)
-exit(0)
+parser = argparse.ArgumentParser(
+    description="Create a Python project based on a skeleton.")
+parser.add_argument(
+    "projectname",
+    type=str,
+    help="Name of the project to be created or updated."
+    "If projectname already exists, it is updated and if it doesn't, a new "
+    "Python project named as the projectname argument is created based on a "
+    "skeleton or on the arguments given.")
+parser.add_argument(
+    '--description',
+    '-d',
+    '-D',
+    metavar='description',
+    type=str,
+    help="Project description to be written on the project's setup.py file")
+parser.add_argument(
+    '--author',
+    '-a',
+    '-A',
+    metavar='author',
+    type=str,
+    help="Project author's name to be written on the project's setup.py file",
+)
+parser.add_argument(
+    '--url',
+    '-u',
+    '-U',
+    metavar='url',
+    type=str,
+    help="URL to get the project at. Is going to be written on the project's"
+    "setup.py file")
+parser.add_argument(
+    '--download_url',
+    '-du',
+    '-DU',
+    metavar="download_url",
+    type=str,
+    help="Project's download url to be written on the project's setup.py file")
+parser.add_argument(
+    '--author_email',
+    '-ae',
+    '-AE',
+    metavar="author_email",
+    type=str,
+    help="Project author's email to be written on the project's setup.py file")
+parser.add_argument(
+    '--version',
+    '-v',
+    '-V',
+    metavar="version",
+    type=float,
+    help="Project's version to be written on the project's setup.py file")
+parser.add_argument(
+    '--auto-version',
+    '-av',
+    '-AV',
+    metavar="auto-version",
+    type=str,
+    help="If 'i' is given the project's version is auto updated by + 1.0 "
+    "If 'd' is given, the project's version is auto updated by + 0.1 "
+    "Note that if the version argument is also given the auto-version "
+    "argument is ignored.")
+parser.add_argument(
+    '--install_requires',
+    '-i',
+    '-I',
+    metavar="install_requires",
+    type=str,
+    nargs='?',
+    help="Modules to be added to install_requires on the project's setup.py")
+parser.add_argument(
+    '--packages',
+    '-p',
+    '-P',
+    metavar="packages",
+    type=str,
+    nargs='?',
+    help="Project's packages to be added to packages on the project's "
+    "setup.py. Note that packages found on the project's tree will "
+    "be automatically added to packages on the setup.py file")
+parser.add_argument(
+    '--scripts',
+    '-s',
+    '-S',
+    metavar="scripts",
+    type=str,
+    nargs='?',
+    help="Project's scripts to be added to scripts on the project's "
+    "setup.py. Note that scripts found on the project's bin directory "
+    "will be automatically added to scripts on the setup.py file. If "
+    "you add a script that can't be found on the project's directory "
+    "tree your setup.py will fail when installing.")
+# We're going to keep the name member of the config dictionary on
+# setup.py as the projectname, as using another string may cause
+# installation problems
+
+# parser.print_help()
+# print(arguments)
+args = parser.parse_args()
+print(args.projectname)
+print(args.scripts)
 
 # Get the current working directory
 top = os.getcwd()
