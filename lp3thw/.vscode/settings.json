@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "filesystem": "cpp",
+        "iostream": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Enabled",
+    "python.pythonPath": "/usr/bin/python3"
+}
