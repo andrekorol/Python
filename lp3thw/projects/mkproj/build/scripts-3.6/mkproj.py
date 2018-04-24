@@ -1,4 +1,4 @@
-#! python3
+#!/home/andre/.venvs/lp3thw/bin/python
 import os
 import sys
 import argparse
