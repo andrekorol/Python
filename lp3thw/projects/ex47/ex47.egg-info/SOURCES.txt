@@ -1,0 +1,7 @@
+setup.py
+ex47/__init__.py
+ex47.egg-info/PKG-INFO
+ex47.egg-info/SOURCES.txt
+ex47.egg-info/dependency_links.txt
+ex47.egg-info/requires.txt
+ex47.egg-info/top_level.txt

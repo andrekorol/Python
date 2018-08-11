@@ -10,7 +10,7 @@ config = {
     'download_url': 'Where to download it.',
     'author_email': 'anrobits@yahoo.com.br',
     'version': '0.1',
-    'install_requires': ['os', 'sys', 'subprocess', 'nose'],
+    'install_requires': ['os', 'sys', 'nose'],
     'packages': ['mkproj'],
     'scripts': ['bin/mkproj.py'],
     'name': 'mkproj'
