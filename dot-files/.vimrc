@@ -59,6 +59,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ryanoasis/vim-devicons'
+Plugin 'chamindra/marvim'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -213,3 +214,5 @@ let g:NERDCommentEmptyLines = 1
 
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
+
+let @q = "#include <bits/stdc++.h>using namespace std;int main(){ios::sync_with_stdio(0);cin.tie(0);€kd€kl}€ku	q€kb"
