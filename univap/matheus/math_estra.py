@@ -136,6 +136,8 @@ temps_difer2 = []
 lines = fin2.readlines()
 
 # Adiciona à uma lista a diferença das temperaturas adjacentes
+# Note que o range começa após o cabeçalho do arquivo, por isso
+# começa em 6.
 for i in range(6, len(lines) - 1):
     current_temp = float(lines[i].split(tab)[1].rstrip())
     next_temp = float(lines[i + 1].split(tab)[1].rstrip())
