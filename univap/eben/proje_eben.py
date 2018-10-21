@@ -90,21 +90,3 @@ open('tempDiff.txt', 'w') as file3:
                        current_line1 = line.split('\t')[1]
                        temp_diff1 = round(float(current_line1) - float(prev_line1),2)
                        prev_line1 = current_line1
-                       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
