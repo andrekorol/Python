@@ -18,7 +18,7 @@ with open("Estratosfera.txt") as in_file, open("Estratosfera.txt", 'r+') as out_
     out_file.writelines(line for line in in_file if line.strip())
     out_file.truncate()
 
-# Abrir os arquivos para leitura e gravção
+# Abrir os arquivos para leitura e gravação
 fin = open("Estratosfera.txt")
 fout = open("estra_90N.txt", 'w')
 
@@ -47,7 +47,7 @@ fout.close()
 # colunas de Estratosfera.txt                                               #
 #############################################################################
 
-# Abrir os arquivos para leitura e gravção
+# Abrir os arquivos para leitura e gravação
 fin = open("Estratosfera.txt")
 fout = open("estra_60_90N.txt", 'w')
 
@@ -76,7 +76,7 @@ fout.close()
 # colunas de Estratosfera.txt                                             #
 ###########################################################################
 
-# Abrir os arquivos para leitura e gravção
+# Abrir os arquivos para leitura e gravação
 fin = open("Estratosfera.txt")
 fout = open("estra_60N.txt", 'w')
 
@@ -104,3 +104,43 @@ fout.close()
 # 2- Calcular a diferença de temperatura de um dia para o outro #
 #################################################################
 
+# Abrir os arquivos para leitura e gravação
+fin1 = open("estra_90N.txt")
+fin2 = open("estra_60_90N.txt")
+# fout = open("temps_difer.txt", 'w')
+
+########################################################################
+# 2.1- Diferenças das temperaturas adjacentes no arquivo estra_90N.txt #
+########################################################################
+
+# Cria uma lista para as diferenças de temperaturas
+temps_difer1 = []
+
+# Lista com as linhas do arquivo a ser lido
+lines = fin1.readlines()
+
+# Adiciona à uma lista a diferença das temperaturas adjacentes
+for i in range(6, len(lines) - 1):
+    current_temp = float(lines[i].split(tab)[1].rstrip())
+    next_temp = float(lines[i + 1].split(tab)[1].rstrip())
+    temps_difer1.append(abs(round(next_temp - current_temp, 2)))
+
+###########################################################################
+# 2.2- Diferenças das temperaturas adjacentes no arquivo estra_60_90N.txt #
+###########################################################################
+
+# Cria uma lista para as diferenças de temperaturas
+temps_difer2 = []
+
+# Lista com as linhas do arquivo a ser lido
+lines = fin2.readlines()
+
+# Adiciona à uma lista a diferença das temperaturas adjacentes
+for i in range(6, len(lines) - 1):
+    current_temp = float(lines[i].split(tab)[1].rstrip())
+    next_temp = float(lines[i + 1].split(tab)[1].rstrip())
+    temps_difer1.append(abs(round(next_temp - current_temp, 2)))
+
+# Fecha os arquivos
+fin1.close()
+fin2.close()
