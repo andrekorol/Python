@@ -1,5 +1,5 @@
 series_out = open('SeriesPFSemTend.dat', 'w')
-mean_radius_file = open('mean.dat', 'r+')
+mean_radius_file = open('mean.dat', 'w+')
 series_in = open('SeriesPFComTend.dat')
 header = series_in.readline()
 mean_radius_file.write('Tempo\tMedia\n')
@@ -16,7 +16,7 @@ for line in series_in:
 series_in.seek(0)
 series_out.write(header)
 next(series_in)
-next(mean_radius_file)
+# next(mean_radius_file)
 
 for mean_radius_file_line, series_out_line in zip(mean_radius_file.readlines(), series_in.readlines()):
     print(mean_radius_file_line)
