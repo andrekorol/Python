@@ -12,15 +12,23 @@ for line in series_in:
     year_mean_radius = round(year_radius_sum / number_of_radius, 5)
     mean_radius_file.write(f'{year}\t{year_mean_radius}\n')
 
+series_out.write(header)
 
 series_in.seek(0)
-series_out.write(header)
 next(series_in)
-# next(mean_radius_file)
 
-for mean_radius_file_line, series_out_line in zip(mean_radius_file.readlines(), series_in.readlines()):
-    print(mean_radius_file_line)
-    print(series_out_line)
+mean_radius_file.seek(0)
+next(mean_radius_file)
+
+for mean_radius_file_line, series_in_line in zip(mean_radius_file.readlines(), series_in.readlines()):
+    year = series_in_line.split('\t')[0]
+    series_out.write(year)
+    mean_radius = float(mean_radius_file_line.split('\t')[1])
+    radius_list = [r for r in series_in_line.split('\t')[1:] if r not in ('', '\n')]
+    for radius in radius_list:
+        no_tend_radius = round(float(radius) - mean_radius, 5)
+        series_out.write(f'\t{no_tend_radius}')
+    series_out.write('\n')
 
 series_out.close()
 mean_radius_file.close()
