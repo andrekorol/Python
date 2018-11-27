@@ -1,5 +1,6 @@
-from sympy import *
-from sympy import plot_implicit, cos, sin, symbols, Eq, And
+from sympy import plot_implicit, cos, sin, symbols, Eq, And, diff, init_printing
+import matplotlib.pyplot as plt
+
 x, y, z = symbols('x y z')
 init_printing(use_unicode=True)#O que significa essa linha?
 
@@ -36,6 +37,12 @@ Bx=diff(A, y)
 By=diff(-A, x)
 soma=Bx-By
 vetor=[Bx,By]#Estou tentando plotar esse vetor, não consegui ainda
+
+# Plotar vetor[Bx, By]
+# Note que vetor[0] = Bx e vetor[1] = By
+plt.figure()
+plt.plot(vetor[0], vetor[1])
+plt.show()
 
 print('A componente Bx será:')
 print(Bx)
@@ -88,7 +95,8 @@ if alfa==-1:
     p1 = plot_implicit(Eq(A, 1))
 if alfa>0:
     print(' As linhas de campo têm forma hiperbólica e existe um ponto neutro tipo-X ou linha-X, como será apresentado no grafico em 2 dimensões')
+    # Plotar A e A1 na mesma figura
     p1 = plot_implicit(Eq(A, 1),title='Ponto Neutro tipo X no eixo x')
-    p2 = plot_implicit(Eq(A1, 1),title='Ponto Neutro tipo X no eixo y')
+    p1.append = plot_implicit(Eq(A1, 1),title='Ponto Neutro tipo X no eixo y')
 #Mano estou tendo plotar os graficos das equações A e A1 em mesmo plano cartesiano, no caso aí, ele está
 #plotanto um de cada vez.
