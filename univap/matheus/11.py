@@ -97,6 +97,6 @@ if alfa>0:
     print(' As linhas de campo têm forma hiperbólica e existe um ponto neutro tipo-X ou linha-X, como será apresentado no grafico em 2 dimensões')
     # Plotar A e A1 na mesma figura
     p1 = plot_implicit(Eq(A, 1),title='Ponto Neutro tipo X no eixo x')
-    p1.append = plot_implicit(Eq(A1, 1),title='Ponto Neutro tipo X no eixo y')
+    p1.append(plot_implicit(Eq(A1, 1),title='Ponto Neutro tipo X no eixo y'))
 #Mano estou tendo plotar os graficos das equações A e A1 em mesmo plano cartesiano, no caso aí, ele está
 #plotanto um de cada vez.
