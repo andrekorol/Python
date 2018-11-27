@@ -2,6 +2,8 @@ from sympy import plot_implicit, cos, sin, symbols, Eq, And, diff, init_printing
 import matplotlib.pyplot as plt
 
 x, y, z = symbols('x y z')
+# Habilita o melhor(mais bonito) jeito para "printar", de acordo com seu
+# ambiente de desenvolvimento 
 init_printing(use_unicode=True)#O que significa essa linha?
 
 '''
