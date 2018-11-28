@@ -38,12 +38,15 @@ Calculo das derivadas
 Bx=diff(A, y)
 By=diff(-A, x)
 soma=Bx-By
+print(type(Bx), type(By))
+print(Bx.as_terms)
 vetor=[Bx,By]#Estou tentando plotar esse vetor, não consegui ainda
+print(type(vetor[0]), type(vetor[1]))
 
 # Plotar vetor[Bx, By]
 # Note que vetor[0] = Bx e vetor[1] = By
 plt.figure()
-plt.plot(vetor[0], vetor[1])
+plt.plot(Bx.as_terms, By.as_terms)
 plt.show()
 
 print('A componente Bx será:')
