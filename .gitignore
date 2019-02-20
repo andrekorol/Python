@@ -13,3 +13,6 @@ lp3thw/Gothons/build/
 .\#*
 # Python virtual environment
 venv
+
+# Visual Studio Code
+.vscode

@@ -21,7 +21,7 @@ class Engine(object):
     def __init__(self, scene_map):
         self.scene_map = scene_map
 
-    def difficulty(self):
+    def set_difficulty(self):
         self.difficulty = 0
         while self.difficulty not in [1, 2, 3, 4]:
             print(dedent("""
@@ -143,9 +143,7 @@ class LaserWeaponArmory(Scene):
         """))
         expr = expr_gen(difficulty)
         cheat_code = eval(expr)
-        print(dedent(f"""
-        To receive a tip, enter the result of {expr}
-        """))
+        print(dedent(f"To receive a tip, enter the result of {expr}"))
         
         code = f"{randint(1, 9)}{randint(1, 9)}{randint(1, 9)}"
         guess = input("[keypad]> ")
@@ -346,5 +344,6 @@ class Map(object):
 
 a_map = Map('central_corridor')
 a_game = Engine(a_map)
-a_game.difficulty()
+a_game.set_difficulty()
 a_game.play()
+quit = input('Press any key to exit...')
