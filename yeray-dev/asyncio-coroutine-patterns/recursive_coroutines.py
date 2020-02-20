@@ -74,6 +74,43 @@ async def post_number_of_comments(loop, session, post_id):
 
     # reduce the descendents comments and add it to this post's
     number_of_comments += sum(results)
-    log.debub('{:^6} > {} comments'.format(post_id, number_of_comments))
+    log.debug('{:^6} > {} comments'.format(post_id, number_of_comments))
 
     return number_of_comments
+
+
+def id_from_HN_url(url):
+    """Return the value of the `id` query arg of a URL if present, or None."""
+    parse_result = urlparse(url)
+    try:
+        return parse_qs(parse_result.query)['id'][0]
+    except (KeyError, IndexError):
+        return None
+
+
+async def main(loop, post_id):
+    """Async entry point coroutine."""
+    start = datetime.now()
+    async with aiohttp.ClientSession(loop=loop) as session:
+        start = datetime.now()
+        comments = await post_number_of_comments(loop, session, post_id)
+        log.info(
+            '> Calculating comments took {:.2f} seconds and {} fetches'.format(
+                (datetime.now() - start).total_seconds(), fetch_counter
+            )
+        )
+    return comments
+
+
+if __name__ == '__main__':
+    args = parser.parse_args()
+    if args.verbose:
+        log.setLevel(logging.DEBUG)
+
+    post_id = id_from_HN_url(args.url) if args.url else args.id
+
+    loop = asyncio.get_event_loop()
+    comments = loop.run_until_complete(main(loop, post_id))
+    log.info('-- Post {} has {} comments'.format(post_id, comments))
+
+    loop.close()
