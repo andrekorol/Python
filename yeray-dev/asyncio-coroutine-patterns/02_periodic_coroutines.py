@@ -95,7 +95,9 @@ async def poll_top_stories_for_comments(loop, session, period, limit):
         log.info('Calculating comments for top {} stories. ({})'.format(
             limit, iteration
         ))
-        await get_comments_of_top_stories(loop, session, limit, iteration)
+        asyncio.create_task(
+            get_comments_of_top_stories(loop, session, limit, iteration)
+        )
 
         log.info(
             '> Calculating comments took {:.2f} seconds and {} fetches'.format(

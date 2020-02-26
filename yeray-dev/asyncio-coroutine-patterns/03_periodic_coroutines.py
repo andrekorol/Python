@@ -1,6 +1,9 @@
 """
 An example of periodically scheduling coroutines using an infinite loop of
-awaiting and sleeping.
+scheduling a task using create_task and sleeping.
+Using a callback to the task returned by create_task, we can now
+correctly output statistics on the elapsed time and fetches using the new
+URLFetcher class. But at a cost to readability.
 """
 
 import asyncio
@@ -35,31 +38,37 @@ log.setLevel(logging.INFO)
 fetch_counter = 0
 
 
-async def fetch(session, url):
-    """Fetch a URL using aiohttp returning parsed JSON response.
-    As suggested by the aiohttp docs, we reuse the session.
-    """
-    global fetch_counter
-    with async_timeout.timeout(FETCH_TIMEOUT):
-        fetch_counter += 1
-        async with session.get(url) as response:
-            return await response.json()
+class URLFetcher():
+    """Provide counting of URL fetches for a particular task."""
+
+    def __init__(self):
+        self.fetch_counter = 0
+
+    async def fetch(self, session, url):
+        """Fetch a URL using aiohttp returning parsed JSON response.
+        As suggested by the aiohttp docs, we reuse the session.
+        """
+        with async_timeout.timeout(FETCH_TIMEOUT):
+            self.fetch_counter += 1
+            async with session.get(url) as response:
+                return await response.json()
 
 
-async def post_number_of_comments(loop, session, post_id):
+async def post_number_of_comments(loop, session, fetcher, post_id):
     """Retrieve data for current post and recursively for all comments."""
     url = URL_TEMPLATE.format(post_id)
-    response = await fetch(session, url)
+    response = await fetcher.fetch(session, url)
 
-    if 'kids' not in response:  # base case, there are no comments
+    # base case, there are no comments
+    if response is None or 'kids' not in response:
         return 0
 
-    # calculate this post's comments as number of comments
+    # calculate this post's comments as numbers of comments
     number_of_comments = len(response['kids'])
 
     # create recursive tasks for all comments
     tasks = [post_number_of_comments(
-        loop, session, kid_id
+        loop, session, fetcher, kid_id
     ) for kid_id in response['kids']]
 
     # schedule the tasks and retrieve results
@@ -73,51 +82,58 @@ async def post_number_of_comments(loop, session, post_id):
 
 
 async def get_comments_of_top_stories(loop, session, limit, iteration):
-    """Retrieve the top stories in HN."""
-    response = await fetch(session, TOP_STORIES_URL)
+    """Retrieve top stories in HN."""
+    fetcher = URLFetcher()  # create a new fetcher for this task
+    response = await fetcher.fetch(session, TOP_STORIES_URL)
     tasks = [post_number_of_comments(
-        loop, session, post_id
+        loop, session, fetcher, post_id
     ) for post_id in response[:limit]]
-
     results = await asyncio.gather(*tasks)
     for post_id, num_comments in zip(response[:limit], results):
         log.info('Post {} has {} comments ({})'.format(
             post_id, num_comments, iteration
         ))
+    return fetcher.fetch_counter    # return the fetch count
 
 
 async def poll_top_stories_for_comments(loop, session, period, limit):
     """Periodically poll for new stories and retrieve number of comments."""
-    global fetch_counter
     iteration = 1
     while True:
-        start = datetime.now()
         log.info('Calculating comments for top {} stories. ({})'.format(
             limit, iteration
         ))
-        await get_comments_of_top_stories(loop, session, limit, iteration)
 
-        log.info(
-            '> Calculating comments took {:.2f} seconds and {} fetches'.format(
-                (datetime.now() - start).total_seconds(), fetch_counter
-            )
+        task = asyncio.create_task(
+            get_comments_of_top_stories(loop, session, limit, iteration)
         )
+
+        start = datetime.now()
+
+        def callback(coro):
+            fetch_count = coro.result()
+            log.info('> Calculating comments took {:.2f} seconds and {} '
+                     'fetches'.format(
+                         (datetime.now() - start).total_seconds(), fetch_count)
+                     )
+
+        task.add_done_callback(callback)
+
         log.info('Waiting for {} seconds...'.format(period))
         iteration += 1
-        fetch_counter = 0
         await asyncio.sleep(period)
 
 
 async def main(loop, period, limit):
-    """Async entry point coroutine."""
+    """Async entry coroutine."""
     async with aiohttp.ClientSession(loop=loop) as session:
         comments = await poll_top_stories_for_comments(loop, session, period,
                                                        limit)
 
-        return comments
+    return comments
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     args = parser.parse_args()
     if args.verbose:
         log.setLevel(logging.DEBUG)
